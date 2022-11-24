@@ -7,6 +7,7 @@ import com.miniautorizador.exception.CartaoInvalidoException;
 import com.miniautorizador.schema.CartaoResponse;
 import com.miniautorizador.schema.CriarCartao;
 import com.miniautorizador.service.CartaoService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 
 import static org.springframework.http.HttpStatus.*;
 
+@Log4j2
 @RestController
 public class CartaoController implements CartaoContract {
 
@@ -30,8 +32,11 @@ public class CartaoController implements CartaoContract {
 
         } catch (CartaoDuplicadoException e) {
             response = new CartaoResponse(e.getMessage());
+            log.error("ERRO: Cartão duplicado.");
             return new ResponseEntity<>(response, UNPROCESSABLE_ENTITY);
+
         } catch (CartaoInvalidoException e) {
+            log.error("ERRO: Cartão inválido.");
             return new ResponseEntity<>(null, BAD_REQUEST);
         }
     }
@@ -43,6 +48,7 @@ public class CartaoController implements CartaoContract {
             return new ResponseEntity<>(response, OK);
 
         } catch (CartaoInexistenteException e) {
+            log.error("ERRO: Cartão inexistente.");
             return new ResponseEntity<>(null, NOT_FOUND);
         }
     }
