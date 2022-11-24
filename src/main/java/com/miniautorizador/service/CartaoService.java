@@ -52,7 +52,7 @@ public class CartaoService {
     }
 
     private void verificaSeCartaoTemApenasNumeros(String numeroCartao) {
-        if(!numeroCartao.matches("\\d"))
+        if(!numeroCartao.matches("^\\d+$"))
             throw new CartaoInvalidoException();
     }
 }
