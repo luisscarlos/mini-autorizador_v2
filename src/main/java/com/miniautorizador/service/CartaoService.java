@@ -2,6 +2,7 @@ package com.miniautorizador.service;
 
 import com.miniautorizador.exception.CartaoDuplicadoException;
 import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInvalidoException;
 import com.miniautorizador.model.Cartao;
 import com.miniautorizador.repository.CartaoRepository;
 import com.miniautorizador.schema.CartaoResponse;
@@ -26,6 +27,8 @@ public class CartaoService {
     public CartaoResponse criarCartao(CriarCartao cartao) {
         log.info("Criando um novo cartão.");
 
+        verificaSeCartaoTemApenasNumeros(cartao.getNumeroCartao());
+
         verificaSeCartaoDuplicado(cartao);
 
         Cartao novoCartao = new Cartao(cartao);
@@ -48,12 +51,8 @@ public class CartaoService {
                 });
     }
 
-    //TODO bloquear letras na string
-//    private Boolean verificaNumeroCartao(String numeroCartao) {
-//
-//        () -> numeroCartao.matches("^[0-9]+$").
-//
-////    VERIFICA SE NA STRING POSSUI APENAS NÚMEROS
-//        return numeroCartao.matches("^[0-9]+$");
-//    }
+    private void verificaSeCartaoTemApenasNumeros(String numeroCartao) {
+        if(!numeroCartao.matches("\\d"))
+            throw new CartaoInvalidoException();
+    }
 }

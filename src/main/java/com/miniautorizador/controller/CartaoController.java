@@ -3,6 +3,7 @@ package com.miniautorizador.controller;
 import com.miniautorizador.contract.CartaoContract;
 import com.miniautorizador.exception.CartaoDuplicadoException;
 import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInvalidoException;
 import com.miniautorizador.schema.CartaoResponse;
 import com.miniautorizador.schema.CriarCartao;
 import com.miniautorizador.service.CartaoService;
@@ -30,6 +31,8 @@ public class CartaoController implements CartaoContract {
         } catch (CartaoDuplicadoException e) {
             response = new CartaoResponse(e.getMessage());
             return new ResponseEntity<>(response, UNPROCESSABLE_ENTITY);
+        } catch (CartaoInvalidoException e) {
+            return new ResponseEntity<>(null, BAD_REQUEST);
         }
     }
 

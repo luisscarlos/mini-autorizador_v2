@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 public class CriarCartao {
-//TODO aceitar no máximo 16 caracteres
+
     @NotNull
     @Size(min = 16, message = "O cartão deve ter 16 números")
     @Size(max = 16, message = "O cartão deve ter 16 números")
