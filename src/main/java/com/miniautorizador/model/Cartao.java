@@ -1,9 +1,7 @@
 package com.miniautorizador.model;
 
 import com.miniautorizador.schema.CriarCartao;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -15,6 +13,8 @@ import java.util.UUID;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cartao")
 public class Cartao {
