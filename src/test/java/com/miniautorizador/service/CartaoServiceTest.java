@@ -40,6 +40,8 @@ class CartaoServiceTest {
 
     private final CriarCartao novoCartaoCorreto = CartaoBuilder.novoCartaoCorreto();
 
+    private final CartaoResponse cartaoResponse = CartaoBuilder.cartaoResponse();
+
     @Test
     void quandoAlfanumericoNoNumeroCartaoThrowsCartaoInvalidoException() {
         assertThrows(CartaoInvalidoException.class,

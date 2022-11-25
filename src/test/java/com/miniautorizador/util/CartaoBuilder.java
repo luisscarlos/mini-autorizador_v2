@@ -58,4 +58,11 @@ public class CartaoBuilder {
                 .senha("1234")
                 .build();
     }
+
+    public static CartaoResponse cartaoResponse() {
+        return CartaoResponse.builder()
+                .numeroCartao("9999999999999999")
+                .senha("4321")
+                .build();
+    }
 }
