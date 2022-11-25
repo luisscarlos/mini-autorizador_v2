@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Component
 @NoArgsConstructor
-public class CartaoCreator {
+public class CartaoBuilder {
 
     public static Cartao cartaoPadraoEntidade() {
 
@@ -19,7 +19,17 @@ public class CartaoCreator {
                 .id(UUID.randomUUID())
                 .numeroCartao("1149873445634233")
                 .senha("1234")
-                .saldo(new BigDecimal("500.00"))
+                .saldo(BigDecimal.valueOf(500))
+                .build();
+    }
+
+    public static Cartao cartaoPadraoSaldoInsuficienteEntidade() {
+
+        return Cartao.builder()
+                .id(UUID.randomUUID())
+                .numeroCartao("1149873445634233")
+                .senha("1234")
+                .saldo(BigDecimal.valueOf(20.15))
                 .build();
     }
 
@@ -29,7 +39,7 @@ public class CartaoCreator {
                 .id(UUID.randomUUID())
                 .numeroCartao("9999999999999999")
                 .senha("4321")
-                .saldo(new BigDecimal("500.00"))
+                .saldo(BigDecimal.valueOf(500))
                 .build();
     }
 
@@ -38,22 +48,6 @@ public class CartaoCreator {
         return CriarCartao.builder()
                 .numeroCartao("6549873885634223")
                 .senha("1234")
-                .build();
-    }
-
-    public static CriarCartao novoCartaoCorretoNaoDuplicado() {
-
-        return CriarCartao.builder()
-                .numeroCartao("9999999999999999")
-                .senha("4321")
-                .build();
-    }
-
-    public static CartaoResponse cartaoResponse() {
-
-        return CartaoResponse.builder()
-                .numeroCartao("9999999999999999")
-                .senha("4321")
                 .build();
     }
 
