@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Tag(name = "1. Cartão", description = "Gerenciamento de cartões.")
@@ -35,7 +34,7 @@ public interface CartaoContract {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping(value = "/{numeroCartao}")
-    ResponseEntity<BigDecimal> obterSaldoCartao(@RequestParam @Valid @NotNull String numeroCartao);
+    ResponseEntity<BigDecimal> obterSaldoCartao(@PathVariable String numeroCartao);
 
 
 }
