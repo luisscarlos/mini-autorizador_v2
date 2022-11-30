@@ -1,15 +1,16 @@
 package com.miniautorizador.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.miniautorizador.exception.CartaoDuplicadoException;
+import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInvalidoException;
 import com.miniautorizador.model.Cartao;
-import com.miniautorizador.repository.CartaoRepository;
 import com.miniautorizador.schema.CartaoResponse;
 import com.miniautorizador.schema.CriarCartao;
 import com.miniautorizador.service.CartaoService;
 import com.miniautorizador.util.CartaoBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,9 +18,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
+import java.math.BigDecimal;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,18 +39,23 @@ class CartaoControllerTest {
     @MockBean
     private CartaoService cartaoService;
 
-    @Mock
-    private CartaoRepository cartaoRepository;
-
     private final Cartao cartaoPadraoEntidade = CartaoBuilder.cartaoPadraoEntidade();
+
+    private final CriarCartao cartaoPadraoDuplicado = CartaoBuilder.cartaoPadraoDuplicado();
 
     private final CriarCartao novoCartaoCorreto = CartaoBuilder.novoCartaoCorreto();
 
     private final CartaoResponse cartaoResponse = CartaoBuilder.cartaoResponse();
 
+    private final CriarCartao novoCartaoComAlfaNumerico = CartaoBuilder.novoCartaoComAlfaNumerico();
+
     private final static String BASE_URL = "/cartoes";
 
     private final static String APPLICATION_JSON = "application/json";
+
+    private final static String NUMERO_CARTAO_VALIDO = "1149873445634233";
+
+    private final static String NUMERO_CARTAO_INEXISTENTE = "3333333333333333";
 
     @Test
     void quandoCartaoCriadoComSucessoRetornaStatusCode2xx() throws Exception {
@@ -63,23 +68,44 @@ class CartaoControllerTest {
 
     @Test
     void quandoCartaoDuplicadoRetornaStatusCode4xx() throws Exception {
-        when(cartaoService.criarCartao(novoCartaoCorreto)).thenReturn(cartaoResponse);
+        when(cartaoService.criarCartao(cartaoPadraoDuplicado)).thenThrow(CartaoDuplicadoException.class);
 
         mockMvc.perform(post(BASE_URL)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(novoCartaoCorreto)))
+                        .content(objectMapper.writeValueAsString(cartaoPadraoDuplicado)))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
-    void quandoCartaoValidoRetornaSaldoCartao() throws Exception {
-        when(cartaoRepository.findByNumeroCartao(any(String.class))).thenReturn(Optional.of(cartaoPadraoEntidade));
+    void quandoCartaoCriadoComAlfanumericoRetornaStatusCode4xx() throws Exception {
+        when(cartaoService.criarCartao(novoCartaoComAlfaNumerico)).thenThrow(CartaoInvalidoException.class);
 
-        mockMvc.perform(get(BASE_URL)
+        mockMvc.perform(post(BASE_URL)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .queryParam("numeroCartao", "1149873445634233"))
+                        .content(objectMapper.writeValueAsString(novoCartaoComAlfaNumerico)))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void quandoCartaoValidoRetornaSaldoCartaoRetornaStatusCode2xx() throws Exception {
+        when(cartaoService.obterSaldoCartao(NUMERO_CARTAO_VALIDO)).thenReturn(BigDecimal.valueOf(500));
+
+        mockMvc.perform(get(BASE_URL + "/{numeroCartao}", NUMERO_CARTAO_VALIDO)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
+
+    }
+
+    @Test
+    void quandoCartaoInexistenteAoObterSaldoRetornaStatusNotFound() throws Exception {
+        when(cartaoService.obterSaldoCartao(NUMERO_CARTAO_INEXISTENTE)).thenThrow(CartaoInexistenteException.class);
+
+        mockMvc.perform(get(BASE_URL + "/{numeroCartao}", NUMERO_CARTAO_INEXISTENTE)
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

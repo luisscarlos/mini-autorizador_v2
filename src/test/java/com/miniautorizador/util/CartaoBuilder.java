@@ -23,6 +23,14 @@ public class CartaoBuilder {
                 .build();
     }
 
+    public static CriarCartao cartaoPadraoDuplicado() {
+
+        return CriarCartao.builder()
+                .numeroCartao("1149873445634233")
+                .senha("1234")
+                .build();
+    }
+
     public static Cartao cartaoPadraoSaldoInsuficienteEntidade() {
 
         return Cartao.builder()
@@ -61,8 +69,8 @@ public class CartaoBuilder {
 
     public static CartaoResponse cartaoResponse() {
         return CartaoResponse.builder()
-                .numeroCartao("9999999999999999")
-                .senha("4321")
+                .numeroCartao("1149873445634233")
+                .senha("1234")
                 .build();
     }
 }
