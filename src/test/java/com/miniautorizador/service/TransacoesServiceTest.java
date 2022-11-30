@@ -54,7 +54,7 @@ class TransacoesServiceTest {
     }
 
     @Test
-    void quandoCartaoNaoExistisThrowCartaoInexistenteException() {
+    void quandoCartaoNaoExisteThrowsCartaoInexistenteException() {
         when(cartaoRepository.findByNumeroCartao(any(String.class))).thenReturn(Optional.empty());
         assertThrows(CartaoInexistenteException.class,
                 () -> transacoesService.realizarTransacao(novaTransacaoPadrao));
