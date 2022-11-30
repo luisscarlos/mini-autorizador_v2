@@ -47,7 +47,7 @@ public class CartaoService {
         cartaoRepository.findByNumeroCartao(cartao.getNumeroCartao())
                 .ifPresent(c -> {
                     log.error("O cartão {} já existe.", cartao.getNumeroCartao());
-                    throw new CartaoDuplicadoException(cartao.getNumeroCartao(), cartao.getSenha());
+                    throw new CartaoDuplicadoException(cartao);
                 });
     }
 

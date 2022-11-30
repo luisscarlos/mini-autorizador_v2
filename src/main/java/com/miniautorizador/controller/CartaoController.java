@@ -7,6 +7,7 @@ import com.miniautorizador.exception.CartaoInvalidoException;
 import com.miniautorizador.schema.CartaoResponse;
 import com.miniautorizador.schema.CriarCartao;
 import com.miniautorizador.service.CartaoService;
+import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import static org.springframework.http.HttpStatus.*;
 
 @Log4j2
+@NoArgsConstructor
 @RestController
 public class CartaoController implements CartaoContract {
 
@@ -31,13 +33,13 @@ public class CartaoController implements CartaoContract {
             return new ResponseEntity<>(response, CREATED);
 
         } catch (CartaoDuplicadoException e) {
-            response = new CartaoResponse(e.getMessage());
+            response = new CartaoResponse(e.getSenha(), e.getNumeroCartao());
             log.error("ERRO: Cartão duplicado.");
             return new ResponseEntity<>(response, UNPROCESSABLE_ENTITY);
 
         } catch (CartaoInvalidoException e) {
             log.error("ERRO: Cartão inválido.");
-            return new ResponseEntity<>(null, BAD_REQUEST);
+            return new ResponseEntity<>(null, UNPROCESSABLE_ENTITY);
         }
     }
 
