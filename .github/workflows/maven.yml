@@ -36,4 +36,8 @@ jobs:
       
     - name: jacoco-badge-generator
       uses: cicirello/jacoco-badge-generator@v2.8.1
+      
+    - name: Setup MySQL
+      uses: mirromutth/mysql-action@v1.1
+
 
