@@ -1,4 +1,4 @@
-Desafio desenvolvido para integrar o time de desenvolvimento da [Elumini](https://www.elumini.com.br/pb/). Descrição do desafio e requisitos no arquivo **[DESAFIO.md](https://github.com/luisscarlos/mini-autorizador/blob/main/DESAFIO.md)**
+Desafio desenvolvido para integrar o time de desenvolvimento da [VR Benefícios](https://www.vr.com.br/) através da [Elumini](https://www.elumini.com.br/pb/). Descrição do desafio e requisitos no arquivo **[DESAFIO.md](https://github.com/luisscarlos/mini-autorizador/blob/main/DESAFIO.md)**
 
 # Tecnologias utilizadas
 
