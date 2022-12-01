@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 public class CartaoDuplicadoException extends RuntimeException {
 
-    private final String numeroCartao;
-
-    private final String senha;
+    private final transient CriarCartao cartao;
 
     public CartaoDuplicadoException (CriarCartao cartao) {
         super();
-        this.numeroCartao = cartao.getNumeroCartao();
-        this.senha = cartao.getSenha();
+        this.cartao = cartao;
     }
 
 }

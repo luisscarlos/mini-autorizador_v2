@@ -32,9 +32,10 @@ public class CartaoService {
         verificaSeCartaoDuplicado(cartao);
 
         Cartao novoCartao = new Cartao(cartao);
+        cartaoRepository.save(novoCartao);
 
         log.info("Cartão {} criado com sucesso.", cartao.getNumeroCartao());
-        return new CartaoResponse(cartaoRepository.save(novoCartao));
+        return new CartaoResponse(novoCartao);
     }
 
     public BigDecimal obterSaldoCartao(String numeroCartao) {
@@ -43,6 +44,7 @@ public class CartaoService {
         return cartaoRepository.findByNumeroCartao(numeroCartao)
                 .map(Cartao::getSaldo).orElseThrow(CartaoInexistenteException::new);
     }
+
     private void verificaSeCartaoDuplicado(CriarCartao cartao) {
         cartaoRepository.findByNumeroCartao(cartao.getNumeroCartao())
                 .ifPresent(c -> {

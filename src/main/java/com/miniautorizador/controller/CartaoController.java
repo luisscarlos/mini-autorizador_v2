@@ -33,7 +33,7 @@ public class CartaoController implements CartaoContract {
             return new ResponseEntity<>(response, CREATED);
 
         } catch (CartaoDuplicadoException e) {
-            response = new CartaoResponse(e.getSenha(), e.getNumeroCartao());
+            response = new CartaoResponse(e.getCartao());
             log.error("ERRO: Cartão duplicado.");
             return new ResponseEntity<>(response, UNPROCESSABLE_ENTITY);
 
