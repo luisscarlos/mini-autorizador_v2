@@ -2,7 +2,7 @@ package com.miniautorizador.controller;
 
 import com.miniautorizador.contract.CartaoContract;
 import com.miniautorizador.exception.CartaoDuplicadoException;
-import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.CartaoInvalidoException;
 import com.miniautorizador.schema.CartaoResponse;
 import com.miniautorizador.schema.CriarCartao;
@@ -33,7 +33,7 @@ public class CartaoController implements CartaoContract {
             return new ResponseEntity<>(response, CREATED);
 
         } catch (CartaoDuplicadoException e) {
-            response = new CartaoResponse(e.getCartao());
+            response = new CartaoResponse(e.getNumeroCartao(), e.getSenha());
             log.error("ERRO: Cartão duplicado.");
             return new ResponseEntity<>(response, UNPROCESSABLE_ENTITY);
 
@@ -49,7 +49,7 @@ public class CartaoController implements CartaoContract {
             BigDecimal response = cartaoService.obterSaldoCartao(numeroCartao);
             return new ResponseEntity<>(response, OK);
 
-        } catch (CartaoInexistenteException e) {
+        } catch (CartaoInexistenteSaldoException e) {
             log.error("ERRO: Cartão inexistente.");
             return new ResponseEntity<>(null, NOT_FOUND);
         }

@@ -20,8 +20,4 @@ public class CartaoResponse {
         this.numeroCartao = cartao.getNumeroCartao();
     }
 
-    public CartaoResponse(CriarCartao cartao) {
-        this.senha = cartao.getSenha();
-        this.numeroCartao = cartao.getNumeroCartao();
-    }
 }

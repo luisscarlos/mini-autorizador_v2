@@ -1,11 +1,10 @@
 package com.miniautorizador.service;
 
 import com.miniautorizador.exception.CartaoDuplicadoException;
-import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.CartaoInvalidoException;
 import com.miniautorizador.model.Cartao;
 import com.miniautorizador.repository.CartaoRepository;
-import com.miniautorizador.schema.CartaoResponse;
 import com.miniautorizador.schema.CriarCartao;
 import com.miniautorizador.util.CartaoBuilder;
 import org.junit.jupiter.api.Test;
@@ -17,8 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,13 +32,9 @@ class CartaoServiceTest {
 
     private final Cartao cartaoPadraoEntidade = CartaoBuilder.cartaoPadraoEntidade();
 
-    private final Cartao cartaoCorretoNaoDuplicadoEntidade = CartaoBuilder.cartaoCorretoNaoDuplicadoEntidade();
-
     private final CriarCartao novoCartaoComAlfaNumerico = CartaoBuilder.novoCartaoComAlfaNumerico();
 
     private final CriarCartao novoCartaoCorreto = CartaoBuilder.novoCartaoCorreto();
-
-    private final CartaoResponse cartaoResponse = CartaoBuilder.cartaoResponse();
 
     @Test
     void quandoAlfanumericoNoNumeroCartaoThrowsCartaoInvalidoException() {
@@ -58,15 +52,18 @@ class CartaoServiceTest {
 
     @Test
     void quandoCartaoValidoSalvarCartao() {
+        when(cartaoRepository.findByNumeroCartao(any(String.class))).thenReturn(Optional.empty());
         cartaoService.criarCartao(novoCartaoCorreto);
-        verify(cartaoRepository).save(cartaoCorretoNaoDuplicadoEntidade);
+
+        assertNotNull(cartaoPadraoEntidade);
+        verify(cartaoRepository).save(cartaoPadraoEntidade);
     }
 
     @Test
     void quandoCartaoNaoExistisThrowCartaoInexistenteException() {
         when(cartaoRepository.findByNumeroCartao(any(String.class))).thenReturn(Optional.empty());
 
-        assertThrows(CartaoInexistenteException.class,
+        assertThrows(CartaoInexistenteSaldoException.class,
                 () -> cartaoService.obterSaldoCartao("9999999999999993"));
     }
 

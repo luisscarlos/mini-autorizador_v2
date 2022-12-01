@@ -1,7 +1,6 @@
 package com.miniautorizador.util;
 
 import com.miniautorizador.model.Cartao;
-import com.miniautorizador.schema.CartaoResponse;
 import com.miniautorizador.schema.CriarCartao;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -41,16 +40,6 @@ public class CartaoBuilder {
                 .build();
     }
 
-    public static Cartao cartaoCorretoNaoDuplicadoEntidade() {
-
-        return Cartao.builder()
-                .id(UUID.randomUUID())
-                .numeroCartao("9999999999999999")
-                .senha("4321")
-                .saldo(BigDecimal.valueOf(500))
-                .build();
-    }
-
     public static CriarCartao novoCartaoCorreto() {
 
         return CriarCartao.builder()
@@ -67,10 +56,4 @@ public class CartaoBuilder {
                 .build();
     }
 
-    public static CartaoResponse cartaoResponse() {
-        return CartaoResponse.builder()
-                .numeroCartao("1149873445634233")
-                .senha("1234")
-                .build();
-    }
 }

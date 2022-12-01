@@ -1,7 +1,7 @@
 package com.miniautorizador.service;
 
 import com.miniautorizador.exception.CartaoDuplicadoException;
-import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.CartaoInvalidoException;
 import com.miniautorizador.model.Cartao;
 import com.miniautorizador.repository.CartaoRepository;
@@ -42,14 +42,14 @@ public class CartaoService {
         log.info("Saldo do Cartão");
 
         return cartaoRepository.findByNumeroCartao(numeroCartao)
-                .map(Cartao::getSaldo).orElseThrow(CartaoInexistenteException::new);
+                .map(Cartao::getSaldo).orElseThrow(CartaoInexistenteSaldoException::new);
     }
 
     private void verificaSeCartaoDuplicado(CriarCartao cartao) {
         cartaoRepository.findByNumeroCartao(cartao.getNumeroCartao())
                 .ifPresent(c -> {
                     log.error("O cartão {} já existe.", cartao.getNumeroCartao());
-                    throw new CartaoDuplicadoException(cartao);
+                    throw new CartaoDuplicadoException(cartao.getNumeroCartao(), cartao.getSenha());
                 });
     }
 

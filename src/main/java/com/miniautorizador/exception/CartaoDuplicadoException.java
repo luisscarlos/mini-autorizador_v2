@@ -1,6 +1,5 @@
 package com.miniautorizador.exception;
 
-import com.miniautorizador.schema.CriarCartao;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -9,11 +8,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 public class CartaoDuplicadoException extends RuntimeException {
 
-    private final transient CriarCartao cartao;
 
-    public CartaoDuplicadoException (CriarCartao cartao) {
+    private final String numeroCartao;
+
+    private final String senha;
+
+    public CartaoDuplicadoException (String numeroCartao, String senha) {
         super();
-        this.cartao = cartao;
+        this.numeroCartao = numeroCartao;
+        this.senha = senha;
     }
 
 }

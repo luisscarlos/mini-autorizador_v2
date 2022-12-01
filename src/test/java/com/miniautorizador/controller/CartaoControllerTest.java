@@ -2,10 +2,8 @@ package com.miniautorizador.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miniautorizador.exception.CartaoDuplicadoException;
-import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.CartaoInvalidoException;
-import com.miniautorizador.model.Cartao;
-import com.miniautorizador.schema.CartaoResponse;
 import com.miniautorizador.schema.CriarCartao;
 import com.miniautorizador.service.CartaoService;
 import com.miniautorizador.util.CartaoBuilder;
@@ -39,13 +37,9 @@ class CartaoControllerTest {
     @MockBean
     private CartaoService cartaoService;
 
-    private final Cartao cartaoPadraoEntidade = CartaoBuilder.cartaoPadraoEntidade();
-
     private final CriarCartao cartaoPadraoDuplicado = CartaoBuilder.cartaoPadraoDuplicado();
 
     private final CriarCartao novoCartaoCorreto = CartaoBuilder.novoCartaoCorreto();
-
-    private final CartaoResponse cartaoResponse = CartaoBuilder.cartaoResponse();
 
     private final CriarCartao novoCartaoComAlfaNumerico = CartaoBuilder.novoCartaoComAlfaNumerico();
 
@@ -58,50 +52,50 @@ class CartaoControllerTest {
     private final static String NUMERO_CARTAO_INEXISTENTE = "3333333333333333";
 
     @Test
-    void quandoCartaoCriadoComSucessoRetornaStatusCode2xx() throws Exception {
+    void quandoCartaoCriadoComSucessoRetornaHttpStatusCode201() throws Exception {
         mockMvc.perform(post(BASE_URL)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(novoCartaoCorreto)))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().isCreated());
     }
 
     @Test
-    void quandoCartaoDuplicadoRetornaStatusCode4xx() throws Exception {
+    void quandoCartaoDuplicadoRetornaHttpStatusCode422() throws Exception {
         when(cartaoService.criarCartao(cartaoPadraoDuplicado)).thenThrow(CartaoDuplicadoException.class);
 
         mockMvc.perform(post(BASE_URL)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(cartaoPadraoDuplicado)))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
-    void quandoCartaoCriadoComAlfanumericoRetornaStatusCode4xx() throws Exception {
+    void quandoCartaoCriadoComAlfanumericoRetornaHttpStatusCode422() throws Exception {
         when(cartaoService.criarCartao(novoCartaoComAlfaNumerico)).thenThrow(CartaoInvalidoException.class);
 
         mockMvc.perform(post(BASE_URL)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(novoCartaoComAlfaNumerico)))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
-    void quandoCartaoValidoRetornaSaldoCartaoRetornaStatusCode2xx() throws Exception {
+    void quandoCartaoValidoRetornaSaldoCartaoRetornaHttpStatusCode200() throws Exception {
         when(cartaoService.obterSaldoCartao(NUMERO_CARTAO_VALIDO)).thenReturn(BigDecimal.valueOf(500));
 
         mockMvc.perform(get(BASE_URL + "/{numeroCartao}", NUMERO_CARTAO_VALIDO)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().isOk());
 
     }
 
     @Test
-    void quandoCartaoInexistenteAoObterSaldoRetornaStatusNotFound() throws Exception {
-        when(cartaoService.obterSaldoCartao(NUMERO_CARTAO_INEXISTENTE)).thenThrow(CartaoInexistenteException.class);
+    void quandoCartaoInexistenteAoObterSaldoRetornaHttpStatus404() throws Exception {
+        when(cartaoService.obterSaldoCartao(NUMERO_CARTAO_INEXISTENTE)).thenThrow(CartaoInexistenteSaldoException.class);
 
         mockMvc.perform(get(BASE_URL + "/{numeroCartao}", NUMERO_CARTAO_INEXISTENTE)
                         .contentType(APPLICATION_JSON)
