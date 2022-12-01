@@ -33,6 +33,15 @@ class CartaoServiceTest {
     @Mock
     private CartaoRepository cartaoRepository;
 
+    /*
+    * O ArgumentCaptor tem o papel de pegar o argumento exato que foi passado como parâmetro de uma função,
+    * nesse caso é usado no teste quandoCartaoValidoSalvarCartao para verificarmos se o objeto Cartão foi saldo.
+    * Se o ArgumentCaptor não for usado e tentarmos fazer um verify com a variável cartaoPadraoEntidade (tipo Cartao) por exemplo,
+    * teremos um erro informando que os argumentos são diferentes, mesmo que seu conteúdo seja igual, isso acontece
+    * porque a referência na memória é diferente para o save que acontece no service e o verify save do teste, e com
+    * o ArgumentCaptor, obtemos o mesmo argumento da service com referência de memória e valores preenchidos para validar
+    * que a operação foi executada com sucesso.
+    * */
     @Captor
     ArgumentCaptor<Cartao> cartaoCaptor;
 
