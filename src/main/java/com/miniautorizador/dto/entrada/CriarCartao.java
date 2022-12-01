@@ -1,4 +1,4 @@
-package com.miniautorizador.schema;
+package com.miniautorizador.dto.entrada;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -22,6 +23,7 @@ public class CriarCartao {
     private String numeroCartao;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Senha do cartão", example = "1234", required = true)
     private String senha;
 

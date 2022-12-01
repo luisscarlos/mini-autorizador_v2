@@ -1,8 +1,8 @@
 package com.miniautorizador.contract;
 
 import com.miniautorizador.enumerated.StatusTransacoesEnum;
-import com.miniautorizador.schema.CartaoResponse;
-import com.miniautorizador.schema.Transacao;
+import com.miniautorizador.dto.retorno.CartaoResponse;
+import com.miniautorizador.dto.entrada.Transacao;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
 
 @Tag(name = "2. Transações", description = "Realizar transações com o cartão.")
 @RequestMapping(value = "/transacoes")
@@ -25,5 +27,5 @@ public interface TransacoesContract {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PostMapping
-    ResponseEntity<StatusTransacoesEnum> realizarTransacao(@RequestBody Transacao transacao);
+    ResponseEntity<StatusTransacoesEnum> realizarTransacao(@RequestBody @Valid Transacao transacao);
 }

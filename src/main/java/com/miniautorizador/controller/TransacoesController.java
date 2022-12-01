@@ -5,7 +5,7 @@ import com.miniautorizador.enumerated.StatusTransacoesEnum;
 import com.miniautorizador.exception.CartaoInexistenteTransacaoException;
 import com.miniautorizador.exception.SaldoInsuficienteException;
 import com.miniautorizador.exception.SenhaInvalidaException;
-import com.miniautorizador.schema.Transacao;
+import com.miniautorizador.dto.entrada.Transacao;
 import com.miniautorizador.service.TransacoesService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

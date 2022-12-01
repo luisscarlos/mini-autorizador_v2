@@ -1,6 +1,6 @@
-package com.miniautorizador.model;
+package com.miniautorizador.domain;
 
-import com.miniautorizador.schema.CriarCartao;
+import com.miniautorizador.dto.entrada.CriarCartao;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;

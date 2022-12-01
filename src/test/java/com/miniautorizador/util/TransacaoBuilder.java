@@ -1,6 +1,6 @@
 package com.miniautorizador.util;
 
-import com.miniautorizador.schema.Transacao;
+import com.miniautorizador.dto.entrada.Transacao;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 

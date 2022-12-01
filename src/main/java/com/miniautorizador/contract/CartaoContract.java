@@ -1,7 +1,7 @@
 package com.miniautorizador.contract;
 
-import com.miniautorizador.schema.CartaoResponse;
-import com.miniautorizador.schema.CriarCartao;
+import com.miniautorizador.dto.retorno.CartaoResponse;
+import com.miniautorizador.dto.entrada.CriarCartao;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miniautorizador.exception.CartaoDuplicadoException;
 import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.CartaoInvalidoException;
-import com.miniautorizador.schema.CriarCartao;
+import com.miniautorizador.dto.entrada.CriarCartao;
 import com.miniautorizador.service.CartaoService;
 import com.miniautorizador.util.CartaoBuilder;
 import org.junit.jupiter.api.Test;

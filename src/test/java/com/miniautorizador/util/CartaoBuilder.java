@@ -1,7 +1,7 @@
 package com.miniautorizador.util;
 
-import com.miniautorizador.model.Cartao;
-import com.miniautorizador.schema.CriarCartao;
+import com.miniautorizador.domain.Cartao;
+import com.miniautorizador.dto.entrada.CriarCartao;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 

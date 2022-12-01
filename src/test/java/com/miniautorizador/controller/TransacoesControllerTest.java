@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miniautorizador.exception.CartaoInexistenteTransacaoException;
 import com.miniautorizador.exception.SaldoInsuficienteException;
 import com.miniautorizador.exception.SenhaInvalidaException;
-import com.miniautorizador.schema.Transacao;
+import com.miniautorizador.dto.entrada.Transacao;
 import com.miniautorizador.service.TransacoesService;
 import com.miniautorizador.util.TransacaoBuilder;
 import org.junit.jupiter.api.Test;

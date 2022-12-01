@@ -1,6 +1,6 @@
-package com.miniautorizador.schema;
+package com.miniautorizador.dto.retorno;
 
-import com.miniautorizador.model.Cartao;
+import com.miniautorizador.domain.Cartao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
