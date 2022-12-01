@@ -22,7 +22,6 @@ public interface CartaoContract {
     @ApiResponses(value =  {
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = CartaoResponse.class))),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = CartaoResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PostMapping
     ResponseEntity<CartaoResponse> criarCartao(@RequestBody @Valid CriarCartao cartao);
