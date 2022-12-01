@@ -1,6 +1,6 @@
 package com.miniautorizador.service;
 
-import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.SaldoInsuficienteException;
 import com.miniautorizador.exception.SenhaInvalidaException;
 import com.miniautorizador.model.Cartao;
@@ -46,7 +46,7 @@ public class TransacoesService {
 
                 }, () -> {
                     log.error("Cartão inexistente.");
-                    throw new CartaoInexistenteException();
+                    throw new CartaoInexistenteSaldoException();
                 });
     }
 

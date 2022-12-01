@@ -2,7 +2,7 @@ package com.miniautorizador.controller;
 
 import com.miniautorizador.contract.TransacoesContract;
 import com.miniautorizador.enumerated.StatusTransacoesEnum;
-import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInexistenteTransacaoException;
 import com.miniautorizador.exception.SaldoInsuficienteException;
 import com.miniautorizador.exception.SenhaInvalidaException;
 import com.miniautorizador.schema.Transacao;
@@ -29,7 +29,7 @@ public class TransacoesController implements TransacoesContract {
             transacoesService.realizarTransacao(transacao);
             return new ResponseEntity<>(StatusTransacoesEnum.OK, OK);
 
-        } catch (CartaoInexistenteException e) {
+        } catch (CartaoInexistenteTransacaoException e) {
             log.error("ERRO: Cartão inválido.");
             return new ResponseEntity<>(StatusTransacoesEnum.CARTAO_INEXISTENTE, UNPROCESSABLE_ENTITY);
 

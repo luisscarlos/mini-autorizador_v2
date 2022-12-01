@@ -1,6 +1,6 @@
 package com.miniautorizador.service;
 
-import com.miniautorizador.exception.CartaoInexistenteException;
+import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.SaldoInsuficienteException;
 import com.miniautorizador.exception.SenhaInvalidaException;
 import com.miniautorizador.model.Cartao;
@@ -56,7 +56,7 @@ class TransacoesServiceTest {
     @Test
     void quandoCartaoNaoExisteThrowsCartaoInexistenteException() {
         when(cartaoRepository.findByNumeroCartao(any(String.class))).thenReturn(Optional.empty());
-        assertThrows(CartaoInexistenteException.class,
+        assertThrows(CartaoInexistenteSaldoException.class,
                 () -> transacoesService.realizarTransacao(novaTransacaoPadrao));
     }
 
