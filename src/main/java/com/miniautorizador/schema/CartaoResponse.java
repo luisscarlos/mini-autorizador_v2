@@ -4,7 +4,6 @@ import com.miniautorizador.model.Cartao;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-@Builder
 @Getter
 @AllArgsConstructor
 public class CartaoResponse {
