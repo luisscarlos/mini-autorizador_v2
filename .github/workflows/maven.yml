@@ -24,7 +24,7 @@ jobs:
         image: mysql:5.7
         ports:
           - "3306:3306"
-        environment:
+        env:
           MYSQL_DATABASE: miniautorizador
           MYSQL_ROOT_PASSWORD:
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
