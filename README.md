@@ -1,16 +1,24 @@
+# MINI AUTORIZADOR
 Desafio desenvolvido para integrar o time de desenvolvimento da [VR Benefícios](https://www.vr.com.br/) através da [Elumini](https://www.elumini.com.br/pb/). Descrição do desafio e requisitos no arquivo **[DESAFIO.md](https://github.com/luisscarlos/mini-autorizador/blob/main/DESAFIO.md)**
 
-[![Java CI with Maven](https://github.com/luisscarlos/mini-autorizador/actions/workflows/maven.yml/badge.svg)](https://github.com/luisscarlos/mini-autorizador/actions/workflows/maven.yml)
+## Build status e analises do sonar
+[![build](https://github.com/luisscarlos/mini-autorizador/actions/workflows/maven.yml/badge.svg)](https://github.com/luisscarlos/mini-autorizador/actions/workflows/maven.yml)
+[![coverage](https://sonarcloud.io/api/project_badges/measure?project=luisscarlos_mini-autorizador&metric=coverage)](https://sonarcloud.io/dashboard?id=luisscarlos_mini-autorizador)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=luisscarlos_mini-autorizador&metric=alert_status)](https://sonarcloud.io/dashboard?id=luisscarlos_mini-autorizador)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=luisscarlos_mini-autorizador&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=luisscarlos_mini-autorizador)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=luisscarlos_mini-autorizador&metric=code_smells)](https://sonarcloud.io/dashboard?id=luisscarlos_mini-autorizador)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=luisscarlos_mini-autorizador&metric=ncloc)](https://sonarcloud.io/dashboard?id=luisscarlos_mini-autorizador)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=luisscarlos_mini-autorizador&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=luisscarlos_mini-autorizador)
 
 # Tecnologias utilizadas
 
+- **[Github Actions](https://github.com/features/actions)**
 - **[Spring Boot](https://spring.io/projects/spring-boot)**
 - **[Spring Data JPA](https://spring.io/projects/spring-data-jpa#overview)** 
 - **[Hibernate](https://hibernate.org/orm/)**
 - **[Lombok](https://projectlombok.org/)**
 - **[Docker](https://www.docker.com/)**
 - **[MySQL](https://www.mysql.com/)**
-
 
 # Requisitos para executar o projeto
 - [Git](https://git-scm.com/)
