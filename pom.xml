@@ -24,6 +24,7 @@
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
+		<sonar.exclusions>com.miniautorizador.config/**, com.miniautorizador.dto/**/*, **/MiniAutorizadorApplication.java</sonar.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
