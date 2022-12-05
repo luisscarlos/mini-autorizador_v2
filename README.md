@@ -18,6 +18,8 @@ Desafio desenvolvido para integrar o time de desenvolvimento da [VR Benefícios]
 - **[Lombok](https://projectlombok.org/)**
 - **[Docker](https://www.docker.com/)**
 - **[MySQL](https://www.mysql.com/)**
+- **[JaCoCo](https://www.eclemma.org/jacoco/)**
+- **[Sonar](https://www.sonarsource.com/)**
 
 # Requisitos para executar o projeto
 - [Git](https://git-scm.com/)
