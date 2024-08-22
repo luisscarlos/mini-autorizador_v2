@@ -1,15 +1,14 @@
 package com.miniautorizador.controller;
 
 import com.miniautorizador.contract.CartaoContract;
+import com.miniautorizador.dto.entrada.CriarCartao;
+import com.miniautorizador.dto.retorno.CartaoResponse;
 import com.miniautorizador.exception.CartaoDuplicadoException;
 import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.CartaoInvalidoException;
-import com.miniautorizador.dto.retorno.CartaoResponse;
-import com.miniautorizador.dto.entrada.CriarCartao;
 import com.miniautorizador.service.CartaoService;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,12 +17,11 @@ import java.math.BigDecimal;
 import static org.springframework.http.HttpStatus.*;
 
 @Log4j2
-@NoArgsConstructor
 @RestController
+@RequiredArgsConstructor
 public class CartaoController implements CartaoContract {
 
-    @Autowired
-    private CartaoService cartaoService;
+    private final CartaoService cartaoService;
 
     @Override
     public ResponseEntity<CartaoResponse> criarCartao(CriarCartao cartao) {

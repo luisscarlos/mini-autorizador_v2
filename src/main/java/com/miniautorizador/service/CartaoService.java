@@ -1,28 +1,26 @@
 package com.miniautorizador.service;
 
+import com.miniautorizador.domain.Cartao;
+import com.miniautorizador.dto.entrada.CriarCartao;
+import com.miniautorizador.dto.retorno.CartaoResponse;
 import com.miniautorizador.exception.CartaoDuplicadoException;
 import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.CartaoInvalidoException;
-import com.miniautorizador.domain.Cartao;
 import com.miniautorizador.repository.CartaoRepository;
-import com.miniautorizador.dto.retorno.CartaoResponse;
-import com.miniautorizador.dto.entrada.CriarCartao;
-import lombok.NoArgsConstructor;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service
 @Log4j2
 @Transactional
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class CartaoService {
 
-    @Autowired
-    private CartaoRepository cartaoRepository;
+    private final CartaoRepository cartaoRepository;
 
     public CartaoResponse criarCartao(CriarCartao cartao) {
         log.info("Criando um novo cartão.");

@@ -1,17 +1,17 @@
 package com.miniautorizador.contract;
 
-import com.miniautorizador.dto.retorno.CartaoResponse;
 import com.miniautorizador.dto.entrada.CriarCartao;
+import com.miniautorizador.dto.retorno.CartaoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.math.BigDecimal;
 
 @Tag(name = "1. Cartão", description = "Gerenciamento de cartões.")

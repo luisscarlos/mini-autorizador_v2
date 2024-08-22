@@ -1,27 +1,25 @@
 package com.miniautorizador.service;
 
+import com.miniautorizador.domain.Cartao;
+import com.miniautorizador.dto.entrada.Transacao;
 import com.miniautorizador.exception.CartaoInexistenteTransacaoException;
 import com.miniautorizador.exception.SaldoInsuficienteException;
 import com.miniautorizador.exception.SenhaInvalidaException;
-import com.miniautorizador.domain.Cartao;
 import com.miniautorizador.repository.CartaoRepository;
-import com.miniautorizador.dto.entrada.Transacao;
-import lombok.NoArgsConstructor;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service
 @Log4j2
 @Transactional
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class TransacoesService {
 
-    @Autowired
-    private CartaoRepository cartaoRepository;
+    private final CartaoRepository cartaoRepository;
 
     /*
     * threadLock tem o papel de ser o monitor do lock que é usado como parâmetro para escopos que utilizam synchronized, dessa forma evitando

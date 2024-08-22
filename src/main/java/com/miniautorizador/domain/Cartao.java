@@ -1,12 +1,12 @@
 package com.miniautorizador.domain;
 
 import com.miniautorizador.dto.entrada.CriarCartao;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.UUID;
@@ -20,15 +20,14 @@ import java.util.UUID;
 public class Cartao {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @JdbcTypeCode(value = SqlTypes.VARCHAR)
     @Column(name = "id", columnDefinition = "VARCHAR(36)")
-    @Type(type = "uuid-char")
     private UUID id;
 
     // String utilizado porque senão aconteceria problema com cartão iniciando com zero.
     @NotNull
-    @Column(name = "numeroCartao", length = 16)
+    @Column(name = "numero_cartao", length = 16)
     private String numeroCartao;
 
     @NotNull
