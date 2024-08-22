@@ -1,5 +1,5 @@
 # MINI AUTORIZADOR
-Desafio desenvolvido para integrar o time de desenvolvimento da [VR Benefícios](https://www.vr.com.br/) através da [Elumini](https://www.elumini.com.br/pb/). Descrição do desafio e requisitos no arquivo **[DESAFIO.md](https://github.com/luisscarlos/mini-autorizador/blob/main/DESAFIO.md)**
+Desafio desenvolvido como parte do processo seletivo para integrar o time de desenvolvimento da [VR Benefícios](https://www.vr.com.br/). Descrição do desafio e requisitos no arquivo **[DESAFIO.md](https://github.com/luisscarlos/mini-autorizador/blob/main/DESAFIO.md)**
 
 ## Build status e analises do sonar
 [![build](https://github.com/luisscarlos/mini-autorizador/actions/workflows/build.yml/badge.svg)](https://github.com/luisscarlos/mini-autorizador/actions/workflows/build.yml)
@@ -24,12 +24,12 @@ Desafio desenvolvido para integrar o time de desenvolvimento da [VR Benefícios]
 # Requisitos para executar o projeto
 - [Git](https://git-scm.com/)
 - [Docker](https://www.docker.com/)
-- [JDK 11+](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)
+- [JDK 21+](https://docs.aws.amazon.com/corretto/latest/corretto-21-ug/downloads-list.html)
 
 # Como executar o projeto
 - Clone o projeto.
 ```bash
-  git clone https://github.com/luisscarlos/mini-autorizador.git
+  git clone https://github.com/luisscarlos/mini-autorizador_v2.git
 ```
 - Abra um terminal na raiz do projeto e execute o comando abaixo para iniciar o banco de dados Mysql no docker.
 ```bash
