@@ -16,4 +16,8 @@ public class JsonConverter {
     public <T> T jsonParaObjetoJava(String json, Class<T> clazz) throws JsonProcessingException {
         return mapper.readValue(json, clazz);
     }
+
+    public String objetoJavaParaJson(Object objeto) throws JsonProcessingException {
+        return mapper.writeValueAsString(objeto);
+    }
 }

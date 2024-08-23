@@ -30,7 +30,7 @@ public class TransacoesService {
     private final Object threadLock = new Object();
 
     public void realizarTransacao(Transacao transacao) {
-        log.info("Iniciando Transação...");
+        log.info("Executando Transação...");
 
         cartaoRepository.findByNumeroCartao(transacao.getNumeroCartao())
                 .ifPresentOrElse(cartao -> {
