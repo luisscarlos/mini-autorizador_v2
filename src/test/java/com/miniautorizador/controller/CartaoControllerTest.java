@@ -1,105 +1,114 @@
 package com.miniautorizador.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.miniautorizador.config.SecurityConfig;
+import com.miniautorizador.dto.entrada.CriarCartao;
 import com.miniautorizador.exception.CartaoDuplicadoException;
 import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.CartaoInvalidoException;
-import com.miniautorizador.dto.entrada.CriarCartao;
 import com.miniautorizador.service.CartaoService;
 import com.miniautorizador.util.CartaoBuilder;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import com.miniautorizador.util.JsonConverter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.InjectMocks;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.math.BigDecimal;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = CartaoController.class)
-@AutoConfigureMockMvc
-class CartaoControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+@ContextConfiguration(classes = { SecurityConfig.class, CartaoController.class })
+class CartaoControllerTest extends BaseControllerTest {
 
     @MockBean
     private CartaoService cartaoService;
 
-    private final CriarCartao cartaoPadraoDuplicado = CartaoBuilder.cartaoPadraoDuplicado();
+    @InjectMocks
+    private JsonConverter jsonConverter;
 
-    private final CriarCartao novoCartaoCorreto = CartaoBuilder.novoCartaoCorreto();
+    private CriarCartao cartaoPadraoDuplicado;
 
-    private final CriarCartao novoCartaoComAlfaNumerico = CartaoBuilder.novoCartaoComAlfaNumerico();
+    private CriarCartao novoCartaoCorreto;
 
-    private final static String BASE_URL = "/cartoes";
+    private CriarCartao novoCartaoComAlfaNumerico;
 
-    private final static String APPLICATION_JSON = "application/json";
+    private static final String BASE_URL = "/cartoes";
 
-    private final static String NUMERO_CARTAO_VALIDO = "1149873445634233";
+    private static final String NUMERO_CARTAO_VALIDO = "1149873445634233";
 
-    private final static String NUMERO_CARTAO_INEXISTENTE = "3333333333333333";
+    private static final String NUMERO_CARTAO_INEXISTENTE = "3333333333333333";
 
-    @Test
-    void quandoCartaoCriadoComSucessoRetornaHttpStatusCode201() throws Exception {
-        mockMvc.perform(post(BASE_URL)
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(novoCartaoCorreto)))
-                .andExpect(status().isCreated());
+    @BeforeEach
+    void setup() throws JsonProcessingException {
+        CartaoBuilder cartaoBuilder = new CartaoBuilder(jsonConverter);
+        cartaoPadraoDuplicado = cartaoBuilder.cartaoPadraoDuplicado();
+        novoCartaoCorreto = cartaoBuilder.novoCartaoCorreto();
+        novoCartaoComAlfaNumerico = cartaoBuilder.novoCartaoComAlfaNumerico();
     }
 
-    @Test
-    void quandoCartaoDuplicadoRetornaHttpStatusCode422() throws Exception {
+    @ParameterizedTest
+    @CsvSource({
+            "true, 201",
+            "false, 401"
+    })
+    void quandoCartaoCriadoComSucessoRetornaHttpStatusCode201(boolean isUsuarioAutenticado, int statusHttpEsperado) throws Exception {
+        assertNotNull(novoCartaoCorreto);
+        performMockMvcRequestAndExpectHttpStatus(isUsuarioAutenticado,"POST", BASE_URL, novoCartaoCorreto, statusHttpEsperado);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "true, 422",
+            "false, 401"
+    })
+    void quandoCartaoDuplicadoRetornaHttpStatusCode422(boolean isUsuarioAutenticado, int statusHttpEsperado) throws Exception {
+        assertNotNull(cartaoPadraoDuplicado);
         when(cartaoService.criarCartao(cartaoPadraoDuplicado)).thenThrow(CartaoDuplicadoException.class);
 
-        mockMvc.perform(post(BASE_URL)
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(cartaoPadraoDuplicado)))
-                .andExpect(status().isUnprocessableEntity());
+        performMockMvcRequestAndExpectHttpStatus(isUsuarioAutenticado,"POST", BASE_URL, cartaoPadraoDuplicado, statusHttpEsperado);
     }
 
-    @Test
-    void quandoCartaoCriadoComAlfanumericoRetornaHttpStatusCode422() throws Exception {
+    @ParameterizedTest
+    @CsvSource({
+            "true, 422",
+            "false, 401"
+    })
+    void quandoCartaoCriadoComAlfanumericoRetornaHttpStatusCode422(boolean isUsuarioAutenticado, int statusHttpEsperado) throws Exception {
+        assertNotNull(novoCartaoComAlfaNumerico);
         when(cartaoService.criarCartao(novoCartaoComAlfaNumerico)).thenThrow(CartaoInvalidoException.class);
 
-        mockMvc.perform(post(BASE_URL)
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(novoCartaoComAlfaNumerico)))
-                .andExpect(status().isUnprocessableEntity());
+        performMockMvcRequestAndExpectHttpStatus(isUsuarioAutenticado,"POST", BASE_URL, novoCartaoComAlfaNumerico, statusHttpEsperado);
     }
 
-    @Test
-    void quandoCartaoValidoRetornaSaldoCartaoRetornaHttpStatusCode200() throws Exception {
+    @ParameterizedTest
+    @CsvSource({
+            "true, 200",
+            "false, 401"
+    })
+    void quandoCartaoValidoRetornaSaldoCartaoRetornaHttpStatusCode200(boolean isUsuarioAutenticado, int statusHttpEsperado) throws Exception {
+        assertNotNull(cartaoService);
         when(cartaoService.obterSaldoCartao(NUMERO_CARTAO_VALIDO)).thenReturn(BigDecimal.valueOf(500));
 
-        mockMvc.perform(get(BASE_URL + "/{numeroCartao}", NUMERO_CARTAO_VALIDO)
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
-                .andExpect(status().isOk());
-
+        String url = String.format("%s/%s", BASE_URL, NUMERO_CARTAO_VALIDO);
+        performMockMvcRequestAndExpectHttpStatus(isUsuarioAutenticado,"GET", url, null, statusHttpEsperado);
     }
 
-    @Test
-    void quandoCartaoInexistenteAoObterSaldoRetornaHttpStatus404() throws Exception {
+    @ParameterizedTest
+    @CsvSource({
+            "true, 404",
+            "false, 401"
+    })
+    void quandoCartaoInexistenteAoObterSaldoRetornaHttpStatus404(boolean isUsuarioAutenticado, int statusHttpEsperado) throws Exception {
+        assertNotNull(cartaoService);
         when(cartaoService.obterSaldoCartao(NUMERO_CARTAO_INEXISTENTE)).thenThrow(CartaoInexistenteSaldoException.class);
 
-        mockMvc.perform(get(BASE_URL + "/{numeroCartao}", NUMERO_CARTAO_INEXISTENTE)
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+        String url = String.format("%s/%s", BASE_URL, NUMERO_CARTAO_INEXISTENTE);
+        performMockMvcRequestAndExpectHttpStatus(isUsuarioAutenticado,"GET", url, null, statusHttpEsperado);
     }
 }

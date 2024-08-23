@@ -1,13 +1,16 @@
 package com.miniautorizador.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.miniautorizador.domain.Cartao;
+import com.miniautorizador.dto.entrada.Transacao;
 import com.miniautorizador.exception.CartaoInexistenteTransacaoException;
 import com.miniautorizador.exception.SaldoInsuficienteException;
 import com.miniautorizador.exception.SenhaInvalidaException;
-import com.miniautorizador.domain.Cartao;
 import com.miniautorizador.repository.CartaoRepository;
-import com.miniautorizador.dto.entrada.Transacao;
 import com.miniautorizador.util.CartaoBuilder;
+import com.miniautorizador.util.JsonConverter;
 import com.miniautorizador.util.TransacaoBuilder;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,13 +33,26 @@ class TransacoesServiceTest {
     @Mock
     private CartaoRepository cartaoRepository;
 
-    private final Cartao cartaoPadraoEntidade = CartaoBuilder.cartaoPadraoEntidade();
+    @InjectMocks
+    private JsonConverter jsonConverter;
 
-    private final Cartao cartaoPadraoSaldoInsuficienteEntidade = CartaoBuilder.cartaoPadraoSaldoInsuficienteEntidade();
+    private Cartao cartaoPadraoEntidade;
 
-    private final Transacao novaTransacaoSenhaIncorreta = TransacaoBuilder.novaTransacaoSenhaIncorreta();
+    private Cartao cartaoPadraoSaldoInsuficienteEntidade;
 
-    private final Transacao novaTransacaoPadrao = TransacaoBuilder.novaTransacaoPadrao();
+    private Transacao novaTransacaoSenhaIncorreta;
+
+    private Transacao novaTransacaoPadrao;
+
+    @BeforeEach
+    void setup() throws JsonProcessingException {
+        CartaoBuilder cartaoBuilder = new CartaoBuilder(jsonConverter);
+        TransacaoBuilder transacaoBuilder = new TransacaoBuilder(jsonConverter);
+        cartaoPadraoEntidade = cartaoBuilder.cartaoPadraoEntidade();
+        cartaoPadraoSaldoInsuficienteEntidade = cartaoBuilder.cartaoPadraoSaldoInsuficienteEntidade();
+        novaTransacaoSenhaIncorreta = transacaoBuilder.novaTransacaoSenhaIncorreta();
+        novaTransacaoPadrao = transacaoBuilder.novaTransacaoPadrao();
+    }
 
 
     @Test

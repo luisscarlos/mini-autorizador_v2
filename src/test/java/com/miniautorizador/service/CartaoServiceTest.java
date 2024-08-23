@@ -1,12 +1,15 @@
 package com.miniautorizador.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.miniautorizador.domain.Cartao;
+import com.miniautorizador.dto.entrada.CriarCartao;
 import com.miniautorizador.exception.CartaoDuplicadoException;
 import com.miniautorizador.exception.CartaoInexistenteSaldoException;
 import com.miniautorizador.exception.CartaoInvalidoException;
-import com.miniautorizador.domain.Cartao;
 import com.miniautorizador.repository.CartaoRepository;
-import com.miniautorizador.dto.entrada.CriarCartao;
 import com.miniautorizador.util.CartaoBuilder;
+import com.miniautorizador.util.JsonConverter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -45,11 +48,22 @@ class CartaoServiceTest {
     @Captor
     ArgumentCaptor<Cartao> cartaoCaptor;
 
-    private final Cartao cartaoPadraoEntidade = CartaoBuilder.cartaoPadraoEntidade();
+    @InjectMocks
+    private JsonConverter jsonConverter;
 
-    private final CriarCartao novoCartaoComAlfaNumerico = CartaoBuilder.novoCartaoComAlfaNumerico();
+    private Cartao cartaoPadraoEntidade;
 
-    private final CriarCartao novoCartaoCorreto = CartaoBuilder.novoCartaoCorreto();
+    private CriarCartao novoCartaoComAlfaNumerico;
+
+    private CriarCartao novoCartaoCorreto;
+
+    @BeforeEach
+    void setup() throws JsonProcessingException {
+        CartaoBuilder cartaoBuilder = new CartaoBuilder(jsonConverter);
+        cartaoPadraoEntidade = cartaoBuilder.cartaoPadraoEntidade();
+        novoCartaoComAlfaNumerico = cartaoBuilder.novoCartaoComAlfaNumerico();
+        novoCartaoCorreto = cartaoBuilder.novoCartaoCorreto();
+    }
 
     @Test
     void quandoAlfanumericoNoNumeroCartaoThrowsCartaoInvalidoException() {
