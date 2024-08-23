@@ -14,6 +14,7 @@ Desafio desenvolvido como parte do processo seletivo para integrar o time de des
 - **[Github Actions](https://github.com/features/actions)**
 - **[Spring Boot](https://spring.io/projects/spring-boot)**
 - **[Spring Data JPA](https://spring.io/projects/spring-data-jpa#overview)** 
+- **[Spring Security](https://spring.io/projects/spring-security)**
 - **[Hibernate](https://hibernate.org/orm/)**
 - **[Lombok](https://projectlombok.org/)**
 - **[Docker](https://www.docker.com/)**
@@ -42,15 +43,16 @@ Desafio desenvolvido como parte do processo seletivo para integrar o time de des
 
 - Acesse a interface dos recursos do backend através do swagger usando o endereço local http://localhost:8080
 
+- Se preferir, no pacote [postman](https://github.com/luisscarlos/mini-autorizador_v2/tree/main/postman) do projeto, existe uma collection com as requisições para serem importadas no Postman.
 
-# Rotas
+# Endpoints
 ## Cartão Controller
-| Método  | Path  | Descrição  |
-| ------------ | ------------ | ------------ |
-| POST  |  /cartoes | Cria um novo cartão |
-| GET  |  /cartoes/{numeroCartao} | Consulta saldo do cartão |
+| Método  | Path  | Descrição  | Autenticação |
+| ------------ | ------------ | ------------ | ------------ |
+| POST  |  /cartoes | Cria um novo cartão | Basic Auth |
+| GET  |  /cartoes/{numeroCartao} | Consulta saldo do cartão | Basic Auth |
 
 ## Transação Controller
-| Método  | Path  | Descrição  |
-| ------------ | ------------ | ------------ |
-| POST  |  /transacoes | Realiza uma transação |
+| Método  | Path  | Descrição  | Autenticação |
+| ------------ | ------------ | ------------ | ------------ |
+| POST  |  /transacoes | Realiza uma transação | Basic Auth |
