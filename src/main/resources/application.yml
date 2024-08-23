@@ -8,6 +8,11 @@ spring:
     url: ${DATABASE_URL:jdbc:mysql://localhost:3306/miniautorizador}
     username: root
     password:
+  security:
+    user:
+      name: ${ADMIN_USER:vr}
+      password: ${ADMIN_PASSWORD:beneficios}
+      roles: ADMIN
 
 server:
   error:
@@ -18,3 +23,10 @@ spring-doc:
     path: /
     tagsSorter: alpha
     operationsSorter: method
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
