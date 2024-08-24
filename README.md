@@ -1,3 +1,7 @@
+<div style="text-align: center;">
+  <img src="https://www.vr.com.br/lumis-theme/br/com/vr/portal/theme/vr-portal/img/svg/logo-vr.svg" alt="VR Logo">
+</div>
+
 # MINI AUTORIZADOR
 Desafio desenvolvido como parte do processo seletivo para integrar o time de desenvolvimento da [VR Benefícios](https://www.vr.com.br/). Descrição do desafio e requisitos no arquivo **[DESAFIO.md](https://github.com/luisscarlos/mini-autorizador_v2/blob/main/DESAFIO.md)**
 
