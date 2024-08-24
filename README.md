@@ -48,6 +48,9 @@ Desafio desenvolvido como parte do processo seletivo para integrar o time de des
 - Acesse a interface dos recursos do backend através do swagger usando o endereço local http://localhost:8080
 
 - Se preferir, no pacote [postman](https://github.com/luisscarlos/mini-autorizador_v2/tree/main/postman) do projeto, existe uma collection com as requisições para serem importadas no Postman.
+- Para realizar as requisições, é necessário autenticação básica (basic auth), com usuário e senha:
+  - Usuário: vr
+  - Senha: beneficios
 
 # Endpoints
 ## Cartão Controller
