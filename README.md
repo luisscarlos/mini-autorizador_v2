@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div style="display: flex; justify-content: center;">
   <img src="https://www.vr.com.br/lumis-theme/br/com/vr/portal/theme/vr-portal/img/svg/logo-vr.svg" alt="VR Logo">
 </div>
 
