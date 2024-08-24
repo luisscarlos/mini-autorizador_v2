@@ -65,6 +65,7 @@ Desafio desenvolvido como parte do processo seletivo para integrar o time de des
 - Atualização do jacoco-maven-plugin da versão 0.8.6 para 0.8.12, pois essa anterior possui vulnerabilidades
 - Utilização do Spring Security para autenticação das requisições
 - Melhora no tratamento de erros e estrutura do projeto
+- Mudança no controle de concorrência para executar uma transação no cartão
 
 ### Itens a serem implementados
 - Ofuscar o número do cartão, mostrando só os 4 primeiros e 4 últimos números

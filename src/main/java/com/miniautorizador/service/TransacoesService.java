@@ -12,6 +12,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 @Log4j2
@@ -21,13 +23,7 @@ public class TransacoesService {
 
     private final CartaoRepository cartaoRepository;
 
-    /*
-    * threadLock tem o papel de ser o monitor do lock que é usado como parâmetro para escopos que utilizam synchronized, dessa forma evitando
-    * que outra thread acesse aquele escopo de execução simultaneamente. Também poderia ser utilizado o this no lugar do Object, porém
-    * o this é acessível fora da classe, e o Object não, por ser declarado como final. Isso favorece a proteção contra um ataque hacker
-    * de DoS (negação de serviço) em que o lock de execução da thread é mantido eternamente impedindo o fluxo da aplicação (deadlock).
-    * */
-    private final Object threadLock = new Object();
+    private final Lock lock = new ReentrantLock();
 
     public void realizarTransacao(Transacao transacao) {
         log.info("Executando Transação...");
@@ -61,14 +57,17 @@ public class TransacoesService {
     }
 
     private void efetuaTransacao(Cartao cartao, Transacao transacao) {
-        /*
-         * O synchronized faz com que apenas uma thread acesse seu escopo por vez evitando duas transações ao mesmo tempo
-         * para aquela instrução.
-         * */
-        synchronized (threadLock) {
-            cartao.setSaldo(cartao.getSaldo().subtract(transacao.getValor()));
-            cartaoRepository.save(cartao);
-            log.info("Transação efetuada.");
+        boolean lockAcquired = lock.tryLock();
+
+        try {
+            if (lockAcquired) {
+                cartao.setSaldo(cartao.getSaldo().subtract(transacao.getValor()));
+                cartaoRepository.save(cartao);
+                log.info("Transação efetuada.");
+            }
+
+        } finally {
+            if (lockAcquired) lock.unlock();
         }
     }
 }
