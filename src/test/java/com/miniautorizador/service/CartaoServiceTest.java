@@ -9,13 +9,12 @@ import com.miniautorizador.exception.CartaoInvalidoException;
 import com.miniautorizador.repository.CartaoRepository;
 import com.miniautorizador.util.CartaoBuilder;
 import com.miniautorizador.util.JsonConverter;
+import com.miniautorizador.validation.validators.CartaoAlfanumericoValidator;
+import com.miniautorizador.validation.validators.CartaoDuplicadoValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
@@ -24,17 +23,22 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class CartaoServiceTest {
 
-    @InjectMocks
-    private CartaoService cartaoService;
+    @Mock
+    private CartaoAlfanumericoValidator cartaoAlfanumericoValidator;
+
+    @Mock
+    private CartaoDuplicadoValidator cartaoDuplicadoValidator;
 
     @Mock
     private CartaoRepository cartaoRepository;
+
+    @InjectMocks
+    private CartaoService cartaoService;
 
     /*
     * O ArgumentCaptor tem o papel de pegar o argumento exato que foi passado como parâmetro de uma função,
@@ -59,10 +63,13 @@ class CartaoServiceTest {
 
     @BeforeEach
     void setup() throws JsonProcessingException {
+        MockitoAnnotations.openMocks(this);
         CartaoBuilder cartaoBuilder = new CartaoBuilder(jsonConverter);
         cartaoPadraoEntidade = cartaoBuilder.cartaoPadraoEntidade();
         novoCartaoComAlfaNumerico = cartaoBuilder.novoCartaoComAlfaNumerico();
         novoCartaoCorreto = cartaoBuilder.novoCartaoCorreto();
+
+        cartaoAlfanumericoValidator.setProximoValidador(cartaoDuplicadoValidator);
     }
 
     @Test
@@ -81,7 +88,11 @@ class CartaoServiceTest {
 
     @Test
     void quandoCartaoValidoSalvarCartao() {
+        when(cartaoRepository.save(any(Cartao.class))).thenReturn(cartaoPadraoEntidade);
         cartaoService.criarCartao(novoCartaoCorreto);
+
+        verify(cartaoAlfanumericoValidator, times(1)).validar(novoCartaoCorreto);
+        verify(cartaoDuplicadoValidator, times(1)).validar(novoCartaoCorreto);
         verify(cartaoRepository).save(cartaoCaptor.capture());
     }
 
